@@ -1,0 +1,31 @@
+---
+# tasks file for apache
+- name: install httpd
+  yum:
+   name: httpd
+   state: latest
+
+- name: start and enable httpd
+  systemd:
+   name: httpd
+   state: started
+   enabled: true
+
+- name: allow apache in firewalld
+  firewalld:
+   service: http
+   state: enabled
+   immediate: true
+   permanent: true
+
+- name: create index.html
+  copy:
+   content: "server one"
+   dest: /var/www/html/index.html
+  delegate_to: 192.168.0.2
+
+- name: create index.html
+  copy:
+   content: "server two"
+   dest: /var/www/html/index.html
+  delegate_to: 192.168.0.3

@@ -1,0 +1,14 @@
+---
+- name: execute haproxy
+  become: true
+  hosts: all
+  tasks:
+   - name: include role apache
+     include_role:
+      name: apache
+     when: inventory_hostname in groups['web_servers']
+
+   - name: include role haproxy
+     include_role:
+      name: haproxy
+     when: inventory_hostname in groups['lb_servers']
